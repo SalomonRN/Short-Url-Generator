@@ -12,19 +12,13 @@ redis_connection = None
 async def setup_redis_connection():
     global REDIS_CONNECTED, redis_connection
     print("[green]INFO: [/green]Configurando conexión a Redis...")
-    REDIS_HOST = os.getenv("REDIS_HOST")
-    REDIS_PASS = os.getenv("REDIS_PASSWORD")
+    REDIS_URL = os.getenv("REDIS_URL")
     
-    
-    if not REDIS_HOST:
-        logger.warning("REDIS_HOST no está configurado en las variables de entorno. Sevidor sigue funcionando sin Redis.")
+    if not REDIS_URL:
+        logger.warning("REDIS_URL no está configurado en las variables de entorno.")
         return
     
-    if not REDIS_PASS:
-        logger.warning("REDIS_HOST no está configurado en las variables de entorno. Servidor sigue funcionando sin Redis.")
-        return
-
-    redis_connection = redis.Redis(host=REDIS_HOST, password=REDIS_PASS, port=6379, db=0)
+    redis_connection = redis.from_url(REDIS_URL)
 
 async def ping_redis(exit=True) -> bool:
     global REDIS_CONNECTED

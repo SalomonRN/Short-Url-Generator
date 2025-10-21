@@ -8,7 +8,7 @@ from app.core.schemas.url import InUrl, OutUrl
 from app.core.db.session import get_session
 from app.utils.base32 import encode
 from app.utils.limiter import limiter
-from app.utils.redis import get_value, set_value
+from app.utils.redisclient import get_value, set_value
 
 
 url_router = APIRouter(prefix="/url", tags=["Url"])

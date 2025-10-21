@@ -1,9 +1,10 @@
 from dotenv import load_dotenv
 load_dotenv()
 
+import os
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from app.utils.redis import setup_redis_connection, ping_redis, close_redis
+from app.utils.redisclient import setup_redis_connection, ping_redis, close_redis
 from app.utils.logger import logger
 from app.core.db.session import create_session, ping_database
 from app.api.routers import url_router
@@ -13,7 +14,7 @@ from app.utils.limiter import limiter
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     
-    redis_exit_on_fail = True # This handle the exit behavior if redis is not reachable at startup
+    redis_exit_on_fail = os.getenv("REDIS_EXIT") # This handle the exit behavior if redis is not reachable at startup
     try:
         logger.info("Iniciando servidor.")
         await setup_redis_connection()
