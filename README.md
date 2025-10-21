@@ -77,7 +77,7 @@ You need the following to run this project:
    Create a `.env` file in the project root and add the required environment variables.
    See `.env.example` for reference
 
-   > **Note:** URI_MONGO, REDIS_HOST and REDIS_PASSWORD are optional depending on your usage.
+   > **Note:** URI_MONGO and REDIS_URL are optional depending on your usage.
 
 4. **Run database migrations:**
    > ⚠️ **IMPORTANT** ⚠️
@@ -113,7 +113,7 @@ All dependencies are listed in `pyproject.toml`.
 
 ## Redis usage
 
-This project uses Redis as a caching layer to store short URL mappings temporarily for faster access. If Redis is unavailable when the server starts, the application will still run, but caching functionalities will be disabled and all requests will hit the database directly. If you want the server to exit if Redis is not reachable at startup, you can change the `redis_exit_on_fail` variable in `main.py` to `True`.
+This project uses Redis as a caching layer to store short URL mappings temporarily for faster access. If Redis is unavailable when the server starts, the application will still run, but caching functionalities will be disabled and all requests will hit the database directly. If you want the server to exit if Redis is not reachable at startup, you can set the environment variable `REDIS_EXIT` to any value.
 
 ---
 
