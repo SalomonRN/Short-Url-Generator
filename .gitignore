@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+
+alembic/versions/*.py
+logs/*.log
+
+draft/
+
+.env
+
+notas.md

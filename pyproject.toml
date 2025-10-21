@@ -1,0 +1,16 @@
+[project]
+name = "short-url"
+version = "0.1.0"
+description = "A simple URL shortener service"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[all]>=0.116.1",
+    "uvicorn>=0.35.0",
+    "redis>=6.4.0",
+    "slowapi>=0.1.9",
+    "asyncpg>=0.30.0",
+    "alembic>=1.17.0",
+    "psycopg2>=2.9.11",
+]
+
