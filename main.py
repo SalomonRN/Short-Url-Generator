@@ -1,4 +1,5 @@
 from dotenv import load_dotenv
+
 load_dotenv()
 
 import os
@@ -8,7 +9,8 @@ from app.utils.redisclient import setup_redis_connection, ping_redis, close_redi
 from app.utils.logger import logger
 from app.core.db.session import create_session, ping_database
 from app.api.routers import url_router
-from app.utils.limiter import limiter 
+from app.utils.limiter import limiter
+from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
@@ -25,9 +27,9 @@ async def lifespan(app: FastAPI):
     except Exception as error:
         logger.error(f"Servidor deteniendose por {error}", exc_info=True)
         raise RuntimeError("Algo salió mal iniciando el servidor...")
-    
+
     logger.info("Servidor iniciado.")
-    
+
     yield
 
     logger.info("Cerrando conexiones a los servicios.")
@@ -37,6 +39,13 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[os.getenv('FRONT_URL', '*')],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.state.limiter = limiter
 app.include_router(url_router)
 
